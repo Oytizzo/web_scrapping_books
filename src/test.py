@@ -1,24 +1,25 @@
-import re
 import requests
+from bs4 import BeautifulSoup
 
 url = "https://books.toscrape.com/"
-content = requests.get(url).text
-# print
-# print(content)
-# print(len(content))
+response = requests.get(url)
+content = response.text
+soup = BeautifulSoup(content, "html.parser")
 
-ul_pat = re.compile(r'<div class="side_categories">(.*?)</div>', re.M | re.DOTALL)
-ul_list = ul_pat.findall(content)
-ul = ul_list[0]
-# print
-# print(ul_list)
-# print(len(ul_list))
-# write to file
-# with open('books.html', 'w') as fp:
-#     fp.write(ul[0])
+category_list = soup.select(".nav-list li ul li a")
 
-category_pat = re.compile(r'<li>\s*<a href="(.*?)">\s*(.*?)\s*</a>', re.M | re.DOTALL)
-categories = category_pat.findall(ul)
-print(len(categories))
-for category in categories:
-    print(category[0])
+print(type(category_list))
+print(type(category_list[0]))
+print()
+print(category_list[0].get("href", ""))
+print(category_list[0].getText())
+print(len(category_list[0].getText()))
+print(type(category_list[0].getText()))
+print()
+print("Done")
+
+# output
+# <class 'bs4.element.ResultSet'>
+# <class 'bs4.element.Tag'>
+# {'href': 'catalogue/category/books/travel_2/index.html'}
+# Done
