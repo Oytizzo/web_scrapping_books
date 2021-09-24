@@ -125,6 +125,7 @@ if __name__ == "__main__":
                                                       "UPC",
                                                       "Price",
                                                       "Availability"])
+        csv_writer.writeheader()
         # crawl website
         crawl_website()
         print("Done")
